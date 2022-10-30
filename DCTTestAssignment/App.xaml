@@ -2,8 +2,12 @@
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:local="clr-namespace:DCTTestAssignment"
+             xmlns:m="clr-namespace:DCTTestAssignment.Models"
+             xmlns:vm="clr-namespace:DCTTestAssignment.ViewModels"
              StartupUri="MainWindow.xaml">
     <Application.Resources>
-         
+        <m:CryptoClient x:Key="CryptoClient"/>
+        <vm:TopListPageVM x:Key="TopListPageVM"/>
+        <vm:CoinDetailsPageVM x:Key="CoinDetailsPageVM"/>
     </Application.Resources>
 </Application>
