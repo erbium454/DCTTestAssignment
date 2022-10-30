@@ -7,6 +7,96 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
     <Grid>
-
+        <TabControl>
+            <TabItem Header="Top Coins" DataContext="{Binding Source={StaticResource TopListPageVM}}">
+                <DockPanel LastChildFill="True">
+                    <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" HorizontalAlignment="Right">
+                        <TextBox Text="{Binding TopAmount}" Margin="5" Width="25" TextAlignment="Center"></TextBox>
+                        <Button Content="Refresh" Command="{Binding RefreshCmd}" Margin="5"></Button>
+                    </StackPanel>
+                    <ListView ItemsSource="{Binding Coins}">
+                        <ListView.View>
+                            <GridView>
+                                <GridViewColumn DisplayMemberBinding="{Binding Path=Rank}" Header="Rank"></GridViewColumn>
+                                <GridViewColumn DisplayMemberBinding="{Binding Path=Id}" Header="Id"></GridViewColumn>
+                                <GridViewColumn DisplayMemberBinding="{Binding Path=Symbol}" Header="Symbol"></GridViewColumn>
+                                <GridViewColumn DisplayMemberBinding="{Binding Path=Name}" Header="Name"></GridViewColumn>
+                                <GridViewColumn DisplayMemberBinding="{Binding Path=PriceUsd}" Header="Price USD"></GridViewColumn>
+                            </GridView>
+                        </ListView.View>
+                    </ListView>
+                </DockPanel>
+            </TabItem>
+            <TabItem Header="Coin Details" DataContext="{Binding Source={StaticResource CoinDetailsPageVM}}">
+                <DockPanel LastChildFill="True">
+                    <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" HorizontalAlignment="Right">
+                        <TextBox Text="{Binding CoinId}" Margin="5" MinWidth="75" TextAlignment="Center"></TextBox>
+                        <Button Content="Search Coin" Command="{Binding GetCoinCmd}" Margin="5"></Button>
+                    </StackPanel>
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="auto"></RowDefinition>
+                            <RowDefinition Height="*"></RowDefinition>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="0.4*"></ColumnDefinition>
+                            <ColumnDefinition Width="0.6*"></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                        <Image Grid.Row="0" Grid.Column="0" Source="{Binding Coin.Image}" MaxWidth="500" HorizontalAlignment="Center" VerticalAlignment="Center"></Image>
+                        <Grid Grid.Row="0" Grid.Column="1">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="0.3*"></ColumnDefinition>
+                                <ColumnDefinition Width="0.7*"></ColumnDefinition>
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition></RowDefinition>
+                                <RowDefinition></RowDefinition>
+                                <RowDefinition></RowDefinition>
+                                <RowDefinition></RowDefinition>
+                                <RowDefinition></RowDefinition>
+                                <RowDefinition></RowDefinition>
+                                <RowDefinition></RowDefinition>
+                            </Grid.RowDefinitions>
+                            <TextBox IsReadOnly="True" Grid.Row="0" Grid.Column="0" Text="Id" Background="LightGray"></TextBox>
+                            <TextBox IsReadOnly="True" Grid.Row="0" Grid.Column="1" Text="{Binding Coin.Id}" Background="LightGray"></TextBox>
+                            <TextBox IsReadOnly="True" Grid.Row="1" Grid.Column="0" Text="Symbol"></TextBox>
+                            <TextBox IsReadOnly="True" Grid.Row="1" Grid.Column="1" Text="{Binding Coin.Symbol}"></TextBox>
+                            <TextBox IsReadOnly="True" Grid.Row="2" Grid.Column="0" Text="Name" Background="LightGray"></TextBox>
+                            <TextBox IsReadOnly="True" Grid.Row="2" Grid.Column="1" Text="{Binding Coin.Name}" Background="LightGray"></TextBox>
+                            <TextBox IsReadOnly="True" Grid.Row="3" Grid.Column="0" Text="Price USD"></TextBox>
+                            <TextBox IsReadOnly="True" Grid.Row="3" Grid.Column="1" Text="{Binding Coin.PriceUsd}"></TextBox>
+                            <TextBox IsReadOnly="True" Grid.Row="4" Grid.Column="0" Text="Total Volume USD" Background="LightGray"></TextBox>
+                            <TextBox IsReadOnly="True" Grid.Row="4" Grid.Column="1" Text="{Binding Coin.TotalVolumeUsd}" Background="LightGray"></TextBox>
+                            <TextBox IsReadOnly="True" Grid.Row="5" Grid.Column="0" Text="Price Change USD 24H"></TextBox>
+                            <TextBox IsReadOnly="True" Grid.Row="5" Grid.Column="1" Text="{Binding Coin.PriceChangeUsd24H}"></TextBox>
+                            <TextBox IsReadOnly="True" Grid.Row="6" Grid.Column="0" Text="Links" Background="LightGray"></TextBox>
+                            <TextBox IsReadOnly="True" Grid.Row="6" Grid.Column="1" Text="{Binding Coin.Links}" Background="LightGray" TextWrapping="Wrap"></TextBox>
+                        </Grid>
+                        <ListView Grid.Row="1" Grid.ColumnSpan="2" ItemsSource="{Binding Coin.Markets}">
+                            <!--<ListView.ItemTemplate>
+                                
+                            </ListView.ItemTemplate>-->
+                            <!--DisplayMemberBinding="{Binding Path=TradeUrl}"-->
+                            <ListView.View>
+                                <GridView>
+                                    <GridViewColumn DisplayMemberBinding="{Binding Path=Name}" Header="Market"></GridViewColumn>
+                                    <GridViewColumn DisplayMemberBinding="{Binding Path=TargetCurrency}" Header="Target Currency"></GridViewColumn>
+                                    <GridViewColumn DisplayMemberBinding="{Binding Path=Price}" Header="Price"></GridViewColumn>
+                                    <GridViewColumn Header="Trade URL">
+                                        <GridViewColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <TextBlock>           
+                                                    <Hyperlink NavigateUri="{Binding Path=TradeUrl}" RequestNavigate="LinkOnRequestNavigate"><TextBlock Text="{Binding Path=TradeUrl}"/></Hyperlink>
+                                                </TextBlock>
+                                            </DataTemplate>
+                                        </GridViewColumn.CellTemplate>
+                                    </GridViewColumn>
+                                </GridView>
+                            </ListView.View>
+                        </ListView>
+                    </Grid>
+                </DockPanel>
+            </TabItem>
+        </TabControl>
     </Grid>
 </Window>
