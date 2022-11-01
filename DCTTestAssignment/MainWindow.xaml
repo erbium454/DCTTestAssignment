@@ -4,99 +4,166 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:DCTTestAssignment"
+        xmlns:controls="clr-namespace:System.Windows.Controls;assembly=mscorlib" 
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
-    <Grid>
+    <Window.Resources>
+        <controls:BooleanToVisibilityConverter x:Key="boolToVisConv" />
+        <local:CandleChartConverter x:Key="CandleConv"/>
+    </Window.Resources>
+    <DockPanel>
+        <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" FlowDirection="RightToLeft">
+            <ComboBox x:Name="langBox"></ComboBox>
+        </StackPanel>
         <TabControl>
-            <TabItem Header="Top Coins" DataContext="{Binding Source={StaticResource TopListPageVM}}">
+            <TabItem Header="{DynamicResource TopCoinsTabTitle}" DataContext="{Binding Source={StaticResource TopListPageVM}}">
                 <DockPanel LastChildFill="True">
                     <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" HorizontalAlignment="Right">
-                        <TextBox Text="{Binding TopAmount}" Margin="5" Width="25" TextAlignment="Center"></TextBox>
-                        <Button Content="Refresh" Command="{Binding RefreshCmd}" Margin="5"></Button>
+                        <TextBox Text="{Binding TopAmount}" MinWidth="50" HorizontalContentAlignment="Center"></TextBox>
+                        <Button Content="{DynamicResource LoadButtonTitle}" Command="{Binding RefreshCmd}" Margin="5 5 0 5"></Button>
                     </StackPanel>
                     <ListView ItemsSource="{Binding Coins}">
                         <ListView.View>
                             <GridView>
-                                <GridViewColumn DisplayMemberBinding="{Binding Path=Rank}" Header="Rank"></GridViewColumn>
-                                <GridViewColumn DisplayMemberBinding="{Binding Path=Id}" Header="Id"></GridViewColumn>
-                                <GridViewColumn DisplayMemberBinding="{Binding Path=Symbol}" Header="Symbol"></GridViewColumn>
-                                <GridViewColumn DisplayMemberBinding="{Binding Path=Name}" Header="Name"></GridViewColumn>
-                                <GridViewColumn DisplayMemberBinding="{Binding Path=PriceUsd}" Header="Price USD"></GridViewColumn>
+                                <GridViewColumn DisplayMemberBinding="{Binding Path=Rank}" Header="{DynamicResource RankTitle}"></GridViewColumn>
+                                <GridViewColumn DisplayMemberBinding="{Binding Path=Id}" Header="ID"></GridViewColumn>
+                                <GridViewColumn DisplayMemberBinding="{Binding Path=Symbol}" Header="{DynamicResource SymbolTitle}"></GridViewColumn>
+                                <GridViewColumn DisplayMemberBinding="{Binding Path=Name}" Header="{DynamicResource NameTitle}"></GridViewColumn>
+                                <GridViewColumn DisplayMemberBinding="{Binding Path=PriceUsd}" Header="{DynamicResource PriceUSDTitle}"></GridViewColumn>
                             </GridView>
                         </ListView.View>
                     </ListView>
                 </DockPanel>
             </TabItem>
-            <TabItem Header="Coin Details" DataContext="{Binding Source={StaticResource CoinDetailsPageVM}}">
+            <TabItem Header="{DynamicResource CoinInfTabTitle}" DataContext="{Binding Source={StaticResource CoinDetailsPageVM}}">
                 <DockPanel LastChildFill="True">
                     <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" HorizontalAlignment="Right">
-                        <TextBox Text="{Binding CoinId}" Margin="5" MinWidth="75" TextAlignment="Center"></TextBox>
-                        <Button Content="Search Coin" Command="{Binding GetCoinCmd}" Margin="5"></Button>
+                        <TextBox Text="{Binding CoinId}"></TextBox>
+                        <Button Content="{DynamicResource LoadButtonTitle}" Command="{Binding GetCoinCmd}"></Button>
                     </StackPanel>
-                    <Grid>
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="auto"></RowDefinition>
-                            <RowDefinition Height="*"></RowDefinition>
-                        </Grid.RowDefinitions>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="0.4*"></ColumnDefinition>
-                            <ColumnDefinition Width="0.6*"></ColumnDefinition>
-                        </Grid.ColumnDefinitions>
-                        <Image Grid.Row="0" Grid.Column="0" Source="{Binding Coin.Image}" MaxWidth="500" HorizontalAlignment="Center" VerticalAlignment="Center"></Image>
-                        <Grid Grid.Row="0" Grid.Column="1">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="0.3*"></ColumnDefinition>
-                                <ColumnDefinition Width="0.7*"></ColumnDefinition>
-                            </Grid.ColumnDefinitions>
+                    <ScrollViewer VerticalScrollBarVisibility="Visible" CanContentScroll="True">
+                        <Grid Visibility="{Binding Path=HasInfo, Converter={StaticResource boolToVisConv}}">
                             <Grid.RowDefinitions>
-                                <RowDefinition></RowDefinition>
-                                <RowDefinition></RowDefinition>
-                                <RowDefinition></RowDefinition>
-                                <RowDefinition></RowDefinition>
-                                <RowDefinition></RowDefinition>
-                                <RowDefinition></RowDefinition>
-                                <RowDefinition></RowDefinition>
+                                <RowDefinition Height="auto"></RowDefinition>
+                                <RowDefinition Height="auto"></RowDefinition>
+                                <RowDefinition Height="auto"></RowDefinition>
                             </Grid.RowDefinitions>
-                            <TextBox IsReadOnly="True" Grid.Row="0" Grid.Column="0" Text="Id" Background="LightGray"></TextBox>
-                            <TextBox IsReadOnly="True" Grid.Row="0" Grid.Column="1" Text="{Binding Coin.Id}" Background="LightGray"></TextBox>
-                            <TextBox IsReadOnly="True" Grid.Row="1" Grid.Column="0" Text="Symbol"></TextBox>
-                            <TextBox IsReadOnly="True" Grid.Row="1" Grid.Column="1" Text="{Binding Coin.Symbol}"></TextBox>
-                            <TextBox IsReadOnly="True" Grid.Row="2" Grid.Column="0" Text="Name" Background="LightGray"></TextBox>
-                            <TextBox IsReadOnly="True" Grid.Row="2" Grid.Column="1" Text="{Binding Coin.Name}" Background="LightGray"></TextBox>
-                            <TextBox IsReadOnly="True" Grid.Row="3" Grid.Column="0" Text="Price USD"></TextBox>
-                            <TextBox IsReadOnly="True" Grid.Row="3" Grid.Column="1" Text="{Binding Coin.PriceUsd}"></TextBox>
-                            <TextBox IsReadOnly="True" Grid.Row="4" Grid.Column="0" Text="Total Volume USD" Background="LightGray"></TextBox>
-                            <TextBox IsReadOnly="True" Grid.Row="4" Grid.Column="1" Text="{Binding Coin.TotalVolumeUsd}" Background="LightGray"></TextBox>
-                            <TextBox IsReadOnly="True" Grid.Row="5" Grid.Column="0" Text="Price Change USD 24H"></TextBox>
-                            <TextBox IsReadOnly="True" Grid.Row="5" Grid.Column="1" Text="{Binding Coin.PriceChangeUsd24H}"></TextBox>
-                            <TextBox IsReadOnly="True" Grid.Row="6" Grid.Column="0" Text="Links" Background="LightGray"></TextBox>
-                            <TextBox IsReadOnly="True" Grid.Row="6" Grid.Column="1" Text="{Binding Coin.Links}" Background="LightGray" TextWrapping="Wrap"></TextBox>
-                        </Grid>
-                        <ListView Grid.Row="1" Grid.ColumnSpan="2" ItemsSource="{Binding Coin.Markets}">
-                            <!--<ListView.ItemTemplate>
-                                
-                            </ListView.ItemTemplate>-->
-                            <!--DisplayMemberBinding="{Binding Path=TradeUrl}"-->
-                            <ListView.View>
-                                <GridView>
-                                    <GridViewColumn DisplayMemberBinding="{Binding Path=Name}" Header="Market"></GridViewColumn>
-                                    <GridViewColumn DisplayMemberBinding="{Binding Path=TargetCurrency}" Header="Target Currency"></GridViewColumn>
-                                    <GridViewColumn DisplayMemberBinding="{Binding Path=Price}" Header="Price"></GridViewColumn>
-                                    <GridViewColumn Header="Trade URL">
-                                        <GridViewColumn.CellTemplate>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="0.4*"></ColumnDefinition>
+                                <ColumnDefinition Width="0.6*"></ColumnDefinition>
+                            </Grid.ColumnDefinitions>
+                            <Image Grid.Row="0" Grid.Column="0" Source="{Binding Coin.Image}" MaxWidth="400" HorizontalAlignment="Center" VerticalAlignment="Center"></Image>
+                            <Grid Grid.Row="0" Grid.Column="1">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="0.3*"></ColumnDefinition>
+                                    <ColumnDefinition Width="0.7*"></ColumnDefinition>
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition></RowDefinition>
+                                    <RowDefinition></RowDefinition>
+                                    <RowDefinition></RowDefinition>
+                                    <RowDefinition></RowDefinition>
+                                    <RowDefinition></RowDefinition>
+                                    <RowDefinition></RowDefinition>
+                                    <RowDefinition></RowDefinition>
+                                </Grid.RowDefinitions>
+                                <Grid.Resources>
+                                    <Style TargetType="TextBox" BasedOn="{StaticResource {x:Type TextBox}}">
+                                        <Setter Property="Margin" Value="0" />
+                                    </Style>
+                                </Grid.Resources>
+                                <TextBox IsReadOnly="True" Grid.Row="0" Grid.Column="0" Text="ID" Background="LightGray"></TextBox>
+                                <TextBox IsReadOnly="True" Grid.Row="0" Grid.Column="1" Text="{Binding Coin.Id}"></TextBox>
+                                <TextBox IsReadOnly="True" Grid.Row="1" Grid.Column="0" Text="{DynamicResource SymbolTitle}" Background="LightGray"></TextBox>
+                                <TextBox IsReadOnly="True" Grid.Row="1" Grid.Column="1" Text="{Binding Coin.Symbol}"></TextBox>
+                                <TextBox IsReadOnly="True" Grid.Row="2" Grid.Column="0" Text="{DynamicResource NameTitle}" Background="LightGray"></TextBox>
+                                <TextBox IsReadOnly="True" Grid.Row="2" Grid.Column="1" Text="{Binding Coin.Name}"></TextBox>
+                                <TextBox IsReadOnly="True" Grid.Row="3" Grid.Column="0" Text="{DynamicResource PriceUSDTitle}" Background="LightGray"></TextBox>
+                                <TextBox IsReadOnly="True" Grid.Row="3" Grid.Column="1" Text="{Binding Coin.PriceUsd}"></TextBox>
+                                <TextBox IsReadOnly="True" Grid.Row="4" Grid.Column="0" Text="{DynamicResource PriceTotalVolumeUSDTitle}" Background="LightGray"></TextBox>
+                                <TextBox IsReadOnly="True" Grid.Row="4" Grid.Column="1" Text="{Binding Coin.TotalVolumeUsd}"></TextBox>
+                                <TextBox IsReadOnly="True" Grid.Row="5" Grid.Column="0" Text="{DynamicResource PriceChangeUSD24HTitle}" Background="LightGray"></TextBox>
+                                <TextBox IsReadOnly="True" Grid.Row="5" Grid.Column="1" Text="{Binding Coin.PriceChangeUsd24H}"></TextBox>
+                                <TextBox IsReadOnly="True" Grid.Row="6" Grid.Column="0" Text="{DynamicResource LinksTitle}" Background="LightGray"></TextBox>
+                                <TextBox IsReadOnly="True" Grid.Row="6" Grid.Column="1" Text="{Binding Coin.Links}" TextWrapping="Wrap"></TextBox>
+                            </Grid>
+                            <Grid Grid.Row="1" Grid.ColumnSpan="2">
+                                <ScrollViewer HorizontalScrollBarVisibility="Visible" VerticalScrollBarVisibility="Hidden">
+                                    <ItemsControl Grid.Row="1" Grid.ColumnSpan="2" Height="500" ItemsSource="{Binding Path=CandleChart, Converter={StaticResource CandleConv}}">
+                                        <ItemsControl.ItemsPanel>
+                                            <ItemsPanelTemplate>
+                                                <StackPanel Orientation="Horizontal"/>
+                                            </ItemsPanelTemplate>
+                                        </ItemsControl.ItemsPanel>
+                                        <ItemsControl.ItemTemplate>
                                             <DataTemplate>
-                                                <TextBlock>           
-                                                    <Hyperlink NavigateUri="{Binding Path=TradeUrl}" RequestNavigate="LinkOnRequestNavigate"><TextBlock Text="{Binding Path=TradeUrl}"/></Hyperlink>
-                                                </TextBlock>
+                                                <Grid Width="10">
+                                                    <Grid.ToolTip>
+                                                        <ToolTip>
+                                                            <TextBlock>
+                                                                <TextBlock Text="{Binding Path=(local:CandleChartData.hint_data).Time, StringFormat=Time: {0}}"></TextBlock><LineBreak/>
+                                                                <TextBlock Text="{Binding (local:CandleChartData.hint_data).Open, StringFormat=Open: {0}}"></TextBlock><LineBreak/>
+                                                                <TextBlock Text="{Binding (local:CandleChartData.hint_data).Close, StringFormat=Close: {0}}"></TextBlock><LineBreak/>
+                                                                <TextBlock Text="{Binding (local:CandleChartData.hint_data).High, StringFormat=High: {0}}"></TextBlock><LineBreak/>
+                                                                <TextBlock Text="{Binding (local:CandleChartData.hint_data).Low, StringFormat=Low: {0}}"></TextBlock><LineBreak/>
+                                                            </TextBlock>
+                                                        </ToolTip>
+                                                    </Grid.ToolTip>
+                                                    <Grid>
+                                                        <Grid.RowDefinitions>
+                                                            <RowDefinition Height="{Binding (local:CandleChartData.rectangle_top)}"></RowDefinition>
+                                                            <RowDefinition Height="{Binding (local:CandleChartData.rectangle_height)}"></RowDefinition>
+                                                            <RowDefinition Height="{Binding (local:CandleChartData.rectangle_bottom)}"></RowDefinition>
+                                                        </Grid.RowDefinitions>
+                                                        <Rectangle Grid.Row="1" Fill="{Binding (local:CandleChartData.color)}"/>
+                                                    </Grid>
+                                                    <Grid>
+                                                        <Grid.RowDefinitions>
+                                                            <RowDefinition Height="{Binding (local:CandleChartData.line_top)}"></RowDefinition>
+                                                            <RowDefinition Height="{Binding (local:CandleChartData.line_height)}"></RowDefinition>
+                                                            <RowDefinition Height="{Binding (local:CandleChartData.line_bottom)}"></RowDefinition>
+                                                        </Grid.RowDefinitions>
+                                                        <Rectangle Grid.Row="1" Width="1" HorizontalAlignment="Center" Fill="{Binding (local:CandleChartData.color)}"/>
+                                                    </Grid>
+                                                </Grid>
                                             </DataTemplate>
-                                        </GridViewColumn.CellTemplate>
-                                    </GridViewColumn>
-                                </GridView>
-                            </ListView.View>
-                        </ListView>
-                    </Grid>
+                                        </ItemsControl.ItemTemplate>
+                                    </ItemsControl>
+                                </ScrollViewer>
+                            </Grid>
+                            <ListView Grid.Row="2" Grid.ColumnSpan="2" ItemsSource="{Binding Coin.Markets}">
+                                <ListView.View>
+                                    <GridView>
+                                        <GridViewColumn DisplayMemberBinding="{Binding Path=Name}" Header="{DynamicResource MarketClmnTitle}"></GridViewColumn>
+                                        <GridViewColumn DisplayMemberBinding="{Binding Path=TargetCurrency}" Header="{DynamicResource TargetCurrencyClmnTitle}"></GridViewColumn>
+                                        <GridViewColumn DisplayMemberBinding="{Binding Path=Price}" Header="{DynamicResource PriceClmnTitle}"></GridViewColumn>
+                                        <GridViewColumn Header="{DynamicResource TradeURLClmnTitle}">
+                                            <GridViewColumn.CellTemplate>
+                                                <DataTemplate>
+                                                    <TextBlock>
+                                                        <Hyperlink NavigateUri="{Binding Path=TradeUrl}" RequestNavigate="LinkOnRequestNavigate" TextDecorations="None"><TextBlock Text="{Binding Path=TradeUrl}" TextDecorations="None"/></Hyperlink>
+                                                    </TextBlock>
+                                                </DataTemplate>
+                                            </GridViewColumn.CellTemplate>
+                                        </GridViewColumn>
+                                    </GridView>
+                                </ListView.View>
+                            </ListView>
+                        </Grid>
+                    </ScrollViewer>
                 </DockPanel>
             </TabItem>
+            <TabItem Header="{DynamicResource ConvTabTitle}" DataContext="{Binding Source={StaticResource ConvertCurrenciesPageVM}}">
+                <GroupBox Height="300" MinWidth="600" HorizontalAlignment="Center" VerticalAlignment="Center">
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
+                        <TextBox Text="{Binding FromPrice}" TextAlignment="Right"></TextBox>
+                        <ComboBox ItemsSource="{Binding Currencies}" SelectedItem="{Binding FromCurrency}" DisplayMemberPath="Symbol" Width="65"></ComboBox>
+                        <Button Content="{DynamicResource ConvertBtnTitle}" Command="{Binding ConvertCurrencyCmd}"></Button>
+                        <TextBox Text="{Binding ToPrice}" IsReadOnly="True" TextAlignment="Right"></TextBox>
+                        <ComboBox ItemsSource="{Binding Currencies}" SelectedItem="{Binding ToCurrency}" DisplayMemberPath="Symbol" Width="65"></ComboBox>
+                    </StackPanel>
+                </GroupBox>
+            </TabItem>
         </TabControl>
-    </Grid>
+    </DockPanel>
 </Window>

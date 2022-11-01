@@ -27,9 +27,32 @@ namespace DCTTestAssignment
     /// </summary>
     public partial class MainWindow : Window
     {
+        private readonly string[] langs = new string[] { "EN", "UA", "RU" };
+
         public MainWindow()
         {
             InitializeComponent();
+
+            langBox.SelectionChanged += LangChange;
+            langBox.ItemsSource = langs;
+            langBox.SelectedItem = "EN";
+        }
+
+        private void LangChange(object sender, SelectionChangedEventArgs e)
+        {
+            string lang = ((string)langBox.SelectedItem).ToLower();
+            var uri = new Uri($"Resources/lang.{lang}.xaml", UriKind.Relative);
+            var resourceDict = Application.LoadComponent(uri) as ResourceDictionary;
+            var oldDict = (from d in Application.Current.Resources.MergedDictionaries
+                           where d.Source != null && d.Source.OriginalString.StartsWith("Resources/lang.")
+                           select d).FirstOrDefault();
+            if (oldDict != null)
+            {
+                int ind = Application.Current.Resources.MergedDictionaries.IndexOf(oldDict);
+                Application.Current.Resources.MergedDictionaries.Remove(oldDict);
+                Application.Current.Resources.MergedDictionaries.Insert(ind, resourceDict);
+            }
+            else Application.Current.Resources.MergedDictionaries.Add(resourceDict);
         }
 
         private void LinkOnRequestNavigate(object sender, RequestNavigateEventArgs e)
