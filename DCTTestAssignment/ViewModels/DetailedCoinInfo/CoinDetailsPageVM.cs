@@ -13,7 +13,7 @@ using DCTTestAssignment.Models;
 
 namespace DCTTestAssignment.ViewModels
 {
-    class CoinDetailsPageVM : BaseViewModel
+    class CoinDetailsPageVM : PageBaseVM
     {
         private string coin_id;
         public string CoinId

@@ -12,7 +12,7 @@ using DCTTestAssignment.Models;
 
 namespace DCTTestAssignment.ViewModels
 {
-    class TopListPageVM : BaseViewModel
+    class TopListPageVM : PageBaseVM
     {
         private uint? top_amount;
         public uint? TopAmount

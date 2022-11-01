@@ -10,7 +10,7 @@ using System.Windows;
 
 namespace DCTTestAssignment.ViewModels
 {
-    abstract class BaseViewModel : INotifyPropertyChanged
+    abstract class PageBaseVM : INotifyPropertyChanged
     {
         private CryptoClient crypto_client = null;
         protected CryptoClient cryptoClient => crypto_client ?? (crypto_client = (CryptoClient)Application.Current.FindResource("CryptoClient"));
