@@ -114,8 +114,8 @@ namespace DCTTestAssignment.ViewModels
                 return dateTime;
             }
 
-            var dtos = (await cryptoClient.GetCanles("poloniex", "d1", CoinId, "tether", DateTimeOffset.Now.AddYears(-1).ToUnixTimeMilliseconds(), DateTimeOffset.Now.ToUnixTimeMilliseconds()))?.data;
-
+            var dtos = (await cryptoClient.GetCanles("kraken", "d1", CoinId, "tether", DateTimeOffset.Now.AddYears(-1).ToUnixTimeMilliseconds(), DateTimeOffset.Now.ToUnixTimeMilliseconds()))?.data;
+            
             if (dtos != null)
                 CandleChart = dtos.Select(dto => new CandleChartVM
                 {
