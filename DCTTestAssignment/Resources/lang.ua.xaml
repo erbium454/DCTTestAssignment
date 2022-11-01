@@ -1,0 +1,20 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:sys="clr-namespace:System;assembly=mscorlib">
+    <sys:String x:Key="TopCoinsTabTitle">Топ криптовалют</sys:String>
+    <sys:String x:Key="CoinInfTabTitle">Докладні відомості про криптовалюту</sys:String>
+    <sys:String x:Key="ConvTabTitle">Конвертування валюти</sys:String>
+    <sys:String x:Key="LoadButtonTitle">Завантажити</sys:String>
+    <sys:String x:Key="RankTitle">Ранг</sys:String>
+    <sys:String x:Key="SymbolTitle">Символ</sys:String>
+    <sys:String x:Key="NameTitle">Ім'я</sys:String>
+    <sys:String x:Key="PriceUSDTitle">Ціна в доларах США</sys:String>
+    <sys:String x:Key="PriceTotalVolumeUSDTitle">Загальний обсяг у доларах США</sys:String>
+    <sys:String x:Key="PriceChangeUSD24HTitle">Зміна ціни в доларах США за 24 години</sys:String>
+    <sys:String x:Key="LinksTitle">Посилання</sys:String>
+    <sys:String x:Key="MarketClmnTitle">Біржа</sys:String>
+    <sys:String x:Key="TargetCurrencyClmnTitle">Цільова валюта</sys:String>
+    <sys:String x:Key="PriceClmnTitle">Ціна</sys:String>
+    <sys:String x:Key="TradeURLClmnTitle">URL-адреса угоди</sys:String>
+    <sys:String x:Key="ConvertBtnTitle">Конвертувати</sys:String>
+</ResourceDictionary>
